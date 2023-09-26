@@ -1,33 +1,24 @@
-﻿using Microsoft.DeepDev;
-using ITokenizer = Vectra.Models.ITokenizer;
+﻿using SharpToken;
 
 namespace Vectra
 {
-    public class GPT3Tokenizer : ITokenizer
+    public class GPT3Tokenizer : Models.ITokenizer
     {
-        private Microsoft.DeepDev.ITokenizer? _tokenizer;
+        private readonly GptEncoding _gptEncoding;
 
-        public string Decode(int[] tokens)
+        internal GPT3Tokenizer()
         {
-            _createTokenizerIfNotExists();
-
-            return _tokenizer!.Decode(tokens);
+            _gptEncoding = GptEncoding.GetEncodingForModel("gpt-3.5-turbo");
         }
 
-        public List<int> Encode(string text, IReadOnlyCollection<string>? allowedSpecial = null)
+        public string Decode(List<int> tokens)
         {
-            _createTokenizerIfNotExists();
-
-            allowedSpecial ??= new List<string>();
-
-            return _tokenizer!.Encode(text, allowedSpecial);
+            return _gptEncoding.Decode(tokens);
         }
 
-        private async void _createTokenizerIfNotExists()
+        public List<int> Encode(string text, ISet<string>? allowedSpecial = null)
         {
-            if (_tokenizer != null) return;
-
-            _tokenizer = await TokenizerBuilder.CreateByModelNameAsync("gpt3");
+            return _gptEncoding.Encode(text, allowedSpecial);
         }
     }
 }
