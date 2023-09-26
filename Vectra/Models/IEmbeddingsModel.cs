@@ -15,7 +15,7 @@ namespace Vectra.Models
         /// </summary>
         /// <param name="inputs">Text inputs to create embeddings for.</param>
         /// <returns>A <see cref="EmbeddingsResponse"/> with a status and the generated embeddings or a message when an error occurs.</returns>
-        Task<EmbeddingsResponse> CreateEmbeddings(string[] inputs);
+        Task<EmbeddingsResponse> CreateEmbeddings(List<string> inputs);
     }
 
     // <summary>

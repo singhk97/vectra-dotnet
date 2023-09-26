@@ -12,7 +12,7 @@ namespace Vectra.Models
         /// <summary>
         /// Optional. Embeddings for the given inputs.
         /// </summary>
-        public double[][]? Output { get; set; }
+        public List<float[]>? Output { get; set; }
 
         /// <summary>
         /// Optional. Message when status is not equal to <see cref="EmbeddingsResponseStatus.Success"/>.

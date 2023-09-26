@@ -16,13 +16,13 @@ namespace Vectra.Models
         /// </summary>
         /// <param name="tokens">The tokens to decode.</param>
         /// <returns>The decoded text.</returns>
-        string Decode(int[] tokens);
+        string Decode(List<int> tokens);
 
         /// <summary>
         /// Encodes text to tokens.
         /// </summary>
         /// <param name="text">The text to encode.</param>
         /// <returns>The encoded tokens.</returns>
-        List<int> Encode(string text, IReadOnlyCollection<string> allowedSpecial);
+        List<int> Encode(string text, ISet<string>? allowedSpecial = null);
     }
 }

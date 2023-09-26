@@ -14,7 +14,7 @@ namespace Vectra.Models
         /// <summary>
         /// The tokens of the chunk.
         /// </summary>
-        public int[] Tokens { get; set; }
+        public List<int> Tokens { get; set; }
 
         /// <summary>
         /// The start position of the chunk in the original text.
@@ -29,11 +29,11 @@ namespace Vectra.Models
         /// <summary>
         /// The tokens that overlap with the previous chunk.
         /// </summary>
-        public int[] StartOverlap { get; set; }
+        public List<int> StartOverlap { get; set; }
 
         /// <summary>
         /// The tokens that overlap with the next chunk.
         /// </summary>
-        public int[] EndOverlap { get; set; }
+        public List<int> EndOverlap { get; set; }
     }
 }

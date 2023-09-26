@@ -5,7 +5,7 @@ namespace Vectra.Models
     /// An item in an index with metadata and vector information.
     /// </summary>
     /// <typeparam name="TMetadata">The type of the metadata.</typeparam>
-    public class IndexItem<TMetadata> where TMetadata : IDictionary<string, MetadataTypes>
+    public class IndexItem<TMetadata> where TMetadata : Metadata
     {
         /// <summary>
         /// The id of the item.
@@ -20,16 +20,28 @@ namespace Vectra.Models
         /// <summary>
         /// The vector of the item.
         /// </summary>
-        public double[] Vector { get; set; }
+        public float[] Vector { get; set; }
 
         /// <summary>
         /// The norm of the vector.
         /// </summary>
-        public double Norm { get; set; }
+        public float Norm { get; set; }
 
         /// <summary>
         /// Optional. The metadata file of the item.
         /// </summary>
         public string? MetadataFile { get; set; }
+
+        public IndexItem<TMetadata> Clone()
+        {
+            return new IndexItem<TMetadata>()
+            {
+                Id = Id,
+                Metadata = (TMetadata)Metadata.Clone(),
+                Vector = Vector.ToArray(),
+                Norm = Norm,
+                MetadataFile = MetadataFile,
+            };
+        }
     }
 }
