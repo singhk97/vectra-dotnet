@@ -4,3 +4,7 @@
 
 /Vectra/.vs/Vectra
 /Vectra/obj
+/samples/BasicSample/.vs/BasicSample
+/samples/BasicSample/bin/Debug/net6.0
+/samples/BasicSample/index
+/samples/BasicSample/obj
