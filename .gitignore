@@ -5,6 +5,11 @@
 /Vectra/.vs/Vectra
 /Vectra/obj
 /samples/BasicSample/.vs/BasicSample
-/samples/BasicSample/bin/Debug/net6.0
 /samples/BasicSample/index
 /samples/BasicSample/obj
+/samples/BasicSample/bin/Debug/net6.0
+/Vectra/.vs/ProjectEvaluation
+/Vectra/bin/Debug/net6.0
+/Vectra.Tests/bin/Debug/net6.0
+/Vectra.Tests/obj/Debug/net6.0
+/Vectra.Tests/obj
