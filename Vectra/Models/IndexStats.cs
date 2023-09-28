@@ -13,7 +13,7 @@ namespace Vectra.Models
         /// <summary>
         /// The metadata configuration of the index.
         /// </summary>
-        public MetadataConfig MetadataConfig { get; set; }
+        public MetadataConfig? MetadataConfig { get; set; }
 
         /// <summary>
         /// The number of items in the index.

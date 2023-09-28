@@ -65,13 +65,9 @@ async Task chat(string? botMessage = null)
         var vector = await getVector(text);
 
         // Add the text to the index
-        await index.InsertItem(new()
-        {
-            Vector = vector,
-            Metadata = new Metadata(new() {
+        await index.InsertItem(new IndexItem<Metadata>(new Metadata(new() {
                 { "text" , text }
-            })
-        });
+            }), vector, ItemSelector.Normalize(vector)));
 
         await chat("Added to the index");
     }

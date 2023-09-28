@@ -7,12 +7,22 @@ namespace Vectra
 {
     public class OpenAIEmbedding : IEmbeddingsModel
     {
-        private bool _useAzureOpenAI;
-        private OpenAIClient _client;
-        private string _modelName;
+        private readonly bool _useAzureOpenAI;
+        private readonly OpenAIClient _client;
+        private readonly string _modelName;
 
+        /// <summary>
+        /// The maximum number of tokens that can be passed to the model.
+        /// </summary>
         public int MaxTokens { get; } = 8000;
 
+        /// <summary>
+        /// The maximum number of tokens that can be passed to the model.
+        /// </summary>
+        /// <param name="apiKey">The API key to use.</param>
+        /// <param name="modelName">The name of the model to use.</param>
+        /// <param name="endpoint">The endpoint to use.</param>
+        /// <param name="useAzureOpenAI">Whether to use the Azure OpenAI API or not.</param>
         public OpenAIEmbedding(string apiKey, string modelName, string? endpoint = null, bool useAzureOpenAI = false)
         {
             _useAzureOpenAI = useAzureOpenAI;
@@ -33,6 +43,11 @@ namespace Vectra
             }
         }
 
+        /// <summary>
+        /// Creates embeddings for a list of inputs.
+        /// </summary>
+        /// <param name="inputs">The inputs to create embeddings for.</param>
+        /// <returns>The embeddings.</returns>
         public async Task<EmbeddingsResponse> CreateEmbeddings(List<string> inputs)
         {
             Response<Embeddings> response = await _client.GetEmbeddingsAsync(_modelName, new EmbeddingsOptions(inputs));

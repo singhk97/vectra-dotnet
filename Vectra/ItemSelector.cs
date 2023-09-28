@@ -63,54 +63,12 @@ namespace Vectra
         /// <param name="metadata">Metadata of the item</param>
         /// <param name="filter">Filter to apply</param>
         /// <returns>True if the item matches the filter, false otherwise</returns>
-        public static bool Select(Dictionary<string, object> metadata, MetadataFilter filter)
+        public static bool Select(Metadata metadata, MetadataFilter filter)
         {
-            if (filter == null)
-            {
-                return true;
-            }
+            ArgumentNullException.ThrowIfNull(filter);
+            ArgumentNullException.ThrowIfNull(metadata);
 
-/*            foreach (var key in filter.Custom?.Keys ?? Enumerable.Empty<string>())
-            {
-                switch (key)
-                {
-                    case "$and":
-                        if (!filter.And!.All(f => Select(metadata, f)))
-                        {
-                            return false;
-                        }
-                        break;
-                    case "$or":
-                        if (!filter.Or!.Any(f => Select(metadata, f)))
-                        {
-                            return false;
-                        }
-                        break;
-                    default:
-                        var value = filter.Custom![key];
-                        if (value == null)
-                        {
-                            return false;
-                        }
-                        else if (value is MetadataFilter)
-                        {
-                            if (!MetadataFilter(metadata[key], value as MetadataFilter))
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            if (metadata[key] != (MetadataTypes)value)
-                            {
-                                return false;
-                            }
-                        }
-                        break;
-                }
-            }*/
-
-            return true;
+            return filter(metadata).Result;
         }
 
         private static float DotProduct(float[] arr1, float[] arr2)
@@ -125,70 +83,6 @@ namespace Vectra
             }
             // Return the sum
             return sum;
-        }
-
-        private static bool MetadataFilter(MetadataTypes value, MetadataFilter filter)
-        {
-            ArgumentNullException.ThrowIfNull(filter);
-            ArgumentNullException.ThrowIfNull(value);
-
-            foreach (var key in filter.Custom?.Keys ?? Enumerable.Empty<string>())
-            {
-                switch (key)
-                {
-                    case "$eq":
-                        if (value != filter.Eq)
-                        {
-                            return false;
-                        }
-                        break;
-                    case "$ne":
-                        if (value == filter.Ne)
-                        {
-                            return false;
-                        }
-                        break;
-                    case "$gt":
-                        if (value != MetadataTypes.Number || (float)value <= filter.Gt!)
-                        {
-                            return false;
-                        }
-                        break;
-                    case "$gte":
-                        if (value != MetadataTypes.Number || (float)value < filter.Gte!)
-                        {
-                            return false;
-                        }
-                        break;
-                    case "$lt":
-                        if (value != MetadataTypes.Number || (float)value >= filter.Lt!)
-                        {
-                            return false;
-                        }
-                        break;
-                    case "$lte":
-                        if (value != MetadataTypes.Number || (float)value > filter.Lte!)
-                        {
-                            return false;
-                        }
-                        break;
-                    case "$in":
-                        if (value == MetadataTypes.Boolean || !filter.In!.Contains(value))
-                        {
-                            return false;
-                        }
-                        break;
-                    case "$nin":
-                        if (value == MetadataTypes.Boolean || filter.Nin!.Contains(value))
-                        {
-                            return false;
-                        }
-                        break;
-                    default:
-                        return value == (MetadataTypes)filter.Custom![key];
-                }
-            }
-            return true;
         }
     }
 }

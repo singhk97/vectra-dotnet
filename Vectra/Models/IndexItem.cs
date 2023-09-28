@@ -32,16 +32,22 @@ namespace Vectra.Models
         /// </summary>
         public string? MetadataFile { get; set; }
 
+        /// <summary>
+        /// Constructs the <see cref="IndexItem{TMetadata}"/> class.
+        /// </summary>
+        /// <returns></returns>
+        public IndexItem(TMetadata metadata, float[] vector, float? norm = null, string? id = null, string? metadataFile = null)
+        {
+            Id = id ?? Guid.NewGuid().ToString();
+            Metadata = metadata;
+            Vector = vector;
+            Norm = norm ?? ItemSelector.Normalize(vector);
+            MetadataFile = metadataFile;
+        }
+
         public IndexItem<TMetadata> Clone()
         {
-            return new IndexItem<TMetadata>()
-            {
-                Id = Id,
-                Metadata = (TMetadata)Metadata.Clone(),
-                Vector = Vector.ToArray(),
-                Norm = Norm,
-                MetadataFile = MetadataFile,
-            };
+            return new IndexItem<TMetadata>(Metadata, Vector, Norm, Id, MetadataFile);
         }
     }
 }

@@ -20,12 +20,6 @@ namespace Vectra
         {
             _config = config ?? new TextSplitterConfig();
 
-            if (_config.Separators == null || _config.Separators.Count == 0)
-            {
-                _config.Separators = _getSeparators(_config.DocType);
-            }
-
-
             if (_config.ChunkSize < 1)
             {
                 throw new ArgumentException("chunkSize must be >= 1");
@@ -40,6 +34,11 @@ namespace Vectra
             }
         }
 
+        /// <summary>
+        /// Splits the given text into chunks.
+        /// </summary>
+        /// <param name="text">The text to split.</param>
+        /// <returns>A list of text chunks.</returns>
         public async Task<List<TextChunk>> Split(string text)
         {
             // Get basic chunks
@@ -143,15 +142,15 @@ namespace Vectra
                         else
                         {
                             // Append chunk to output
-                            chunks.Add(new TextChunk
-                            {
-                                Text = chunk,
-                                Tokens = tokens,
-                                StartPos = startPos,
-                                EndPos = endPos,
-                                StartOverlap = new List<int>(),
-                                EndOverlap = new List<int>(),
-                            });
+                            chunks.Add(new TextChunk(
+                                    text: chunk,
+                                    tokens: tokens,
+                                    startPos: startPos,
+                                    endPos: endPos,
+                                    startOverlap: new List<int>(),
+                                    endOverlap: new List<int>()
+                                )
+                            );
                         }
 
                     }
@@ -220,7 +219,7 @@ namespace Vectra
         /// </summary>
         /// <param name="docType">The document type, optional.</param>
         /// <returns>An array of strings that are used as separators.</returns>
-        private List<string> _getSeparators(string? docType = null)
+        internal static List<string> GetSeparators(string? docType = null)
         {
             switch (docType?.ToLower() ?? "")
             {

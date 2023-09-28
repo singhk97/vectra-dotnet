@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Vectra.Models
 {
     /// <summary>
     /// The metadata of a document chunk.
     /// </summary>
-    public class DocumentChunkMetadata : Dictionary<string, MetadataTypes>
+    public class DocumentChunkMetadata : Dictionary<string, object>
     {
         /// <summary>
         /// The id of the document.

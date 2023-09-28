@@ -47,17 +47,6 @@ namespace Vectra
         }
 
         /// <summary>
-        /// Cancels an update to the index.
-        /// </summary>
-        /// <remarks>
-        /// This method discards any changes made to the index since the update began.
-        /// </remarks>
-        public void CancelUpdate()
-        {
-            _update = null;
-        }
-
-        /// <summary>
         /// Creates a new index.
         /// </summary>
         /// <remarks>
@@ -100,6 +89,17 @@ namespace Vectra
                 throw new Exception("Error creating index");
             }
         }
+        /// <summary>
+        /// Cancels an update to the index.
+        /// </summary>
+        /// <remarks>
+        /// This method discards any changes made to the index since the update began.
+        /// </remarks>
+        public void CancelUpdate()
+        {
+            _update = null;
+        }
+
 
         /// <summary>
         /// Deletes the index.
@@ -249,10 +249,7 @@ namespace Vectra
         {
             await LoadIndexDataAsync();
 
-            /// TODO: Implement the ItemSelector.Select method
-            // return _data!.Items.Where(i => ItemSelector.Select(i.Metadata, filter)).ToArray();
-
-            return new List<IndexItem<Metadata>>();
+            return _data!.Items.Where(i => ItemSelector.Select(i.Metadata, filter)).ToList();
         }
 
         /// <summary>
@@ -294,12 +291,7 @@ namespace Vectra
             // Find top k
             List<QueryResult<Metadata>> top = distances
                 .GetRange(0, Math.Min(topK, distances.Count))
-                .Select(d => new QueryResult<Metadata>
-                    {
-                        Item = _data!.Items[d.Item1].Clone(),
-                        Score = d.Item2
-                    }
-                )
+                .Select(d => new QueryResult<Metadata>(item: _data!.Items[d.Item1].Clone(), score: d.Item2))
                 .ToList();
             
             // Load external metadata
@@ -375,7 +367,7 @@ namespace Vectra
             }
 
             // Ensure unique
-            string id = item.Id ?? Guid.NewGuid().ToString();
+            string id = item.Id;
             if (unique)
             {
                 var existing = _update!.Items.Find(i => i.Id == id);
@@ -410,13 +402,7 @@ namespace Vectra
             }
 
             // Create new item
-            var newItem = new IndexItem<Metadata>
-            {
-                Id = id,
-                Vector = item.Vector,
-                Metadata = metadata,
-                Norm = ItemSelector.Normalize(item.Vector)
-            };
+            var newItem = new IndexItem<Metadata>(metadata, item.Vector, ItemSelector.Normalize(item.Vector), id);
 
             if (metadataFile != null)
             {

@@ -35,5 +35,25 @@ namespace Vectra.Models
         /// The tokens that overlap with the next chunk.
         /// </summary>
         public List<int> EndOverlap { get; set; }
+
+        
+        /// <summary>
+        /// Creates a new text chunk.
+        /// </summary>
+        /// <param name="text">The text of the chunk.</param>
+        /// <param name="tokens">The tokens of the chunk.</param>
+        /// <param name="startPos">The start position of the chunk in the original text.</param>
+        /// <param name="endPos">The end position of the chunk in the original text.</param>
+        /// <param name="startOverlap">The start overlap of the chunk.</param>
+        /// <param name="endOverlap">The end overlap of the chunk.</param>
+        public TextChunk(string text, List<int> tokens, int startPos, int endPos, List<int> startOverlap, List<int> endOverlap)
+        {
+            Text = text;
+            Tokens = tokens;
+            StartPos = startPos;
+            EndPos = endPos;
+            StartOverlap = startOverlap;
+            EndOverlap = endOverlap;
+        }
     }
 }

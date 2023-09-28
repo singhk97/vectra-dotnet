@@ -16,5 +16,16 @@ namespace Vectra.Models
         /// The score of the result.
         /// </summary>
         public double Score { get; set; }
+
+        /// <summary>
+        /// Constructs the <see cref="QueryResult{TMetadata}"/> class.
+        /// </summary>
+        /// <param name="item">The item of the result.</param>
+        /// <param name="score">The score of the result.</param>
+        public QueryResult(IndexItem<TMetadata> item, double score)
+        {
+            Item = item;
+            Score = score;
+        }
     }
 }

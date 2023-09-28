@@ -19,7 +19,7 @@ namespace Vectra.Models
         /// </summary>
         [JsonPropertyName("metadataConfig")]
         [JsonInclude]
-        public MetadataConfig MetadataConfig { get; set; }
+        public MetadataConfig? MetadataConfig { get; set; }
 
         /// <summary>
         /// The items in the index.
@@ -28,12 +28,13 @@ namespace Vectra.Models
         [JsonInclude]
         public List<IndexItem<TMetadata>> Items { get; set; }
 
+
         public IndexData<TMetadata> Clone()
         {
             int version = Version;
             MetadataConfig metadataConfig = new()
             {
-                Indexed = MetadataConfig.Indexed?.ToArray(),
+                Indexed = MetadataConfig?.Indexed?.ToArray(),
             };
             List<IndexItem<TMetadata>> new_items = new();
 

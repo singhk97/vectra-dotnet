@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Vectra.Models
 {
     /// <summary>
@@ -40,6 +35,12 @@ namespace Vectra.Models
         /// The optional document type to assign to the chunks.
         /// </summary>
         public string? DocType { get; set; }
+
+        public TextSplitterConfig()
+        {
+            Separators = TextSplitter.GetSeparators(DocType);
+            Tokenizer = new GPT3Tokenizer();
+        }
     }
 
 }
