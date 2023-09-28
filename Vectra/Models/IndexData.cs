@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Vectra.Models
 {
@@ -7,6 +8,11 @@ namespace Vectra.Models
     /// </summary>
     public class IndexData<TMetadata> where TMetadata : Metadata
     {
+        private static readonly JsonSerializerOptions _jsonSerializationOptions = new()
+        {
+            WriteIndented = true,
+        };
+
         /// <summary>
         /// The version of the index.
         /// </summary>
@@ -51,6 +57,11 @@ namespace Vectra.Models
                 MetadataConfig = metadataConfig,
                 Items = new_items,
             };
+        }
+
+        internal string GetJson()
+        {
+            return JsonSerializer.Serialize(this, _jsonSerializationOptions);
         }
     }
 }

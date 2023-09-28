@@ -16,7 +16,6 @@ namespace Vectra
         private static readonly JsonSerializerOptions _jsonSerializationOptions = new()
         {
             WriteIndented = true,
-            Converters = { new JsonStringEnumConverter() }
         };
 
         public LocalIndex(string folderPath, string indexName = "index.json")
@@ -81,7 +80,7 @@ namespace Vectra
                     Items = new List<IndexItem<Metadata>>()
                 };
 
-                await File.WriteAllTextAsync(Path.Combine(_folderPath, _indexName), _getIndexDataJson(_data));
+                await File.WriteAllTextAsync(Path.Combine(_folderPath, _indexName), _data.GetJson());
             }
             catch (Exception)
             {
@@ -155,7 +154,7 @@ namespace Vectra
             try
             {
                 // Save index
-                await File.WriteAllTextAsync(Path.Combine(_folderPath, _indexName), _getIndexDataJson(_update));
+                await File.WriteAllTextAsync(Path.Combine(_folderPath, _indexName), _update.GetJson());
                 _data = _update;
                 _update = null;
             }
@@ -381,7 +380,7 @@ namespace Vectra
             Metadata metadata = new();
             string? metadataFile = null;
 
-            if (_update!.MetadataConfig.Indexed != null && _update!.MetadataConfig.Indexed.Length > 0 && item.Metadata.Values.Count > 0)
+            if (_update!.MetadataConfig?.Indexed != null && _update!.MetadataConfig.Indexed.Length > 0 && item.Metadata.Values.Count > 0)
             {
                 // Copy only indexed metadata
                 foreach (var key in _update!.MetadataConfig.Indexed)
@@ -430,11 +429,6 @@ namespace Vectra
                 _update!.Items.Add(newItem);
                 return newItem;
             }
-        }
-
-        private string _getIndexDataJson(IndexData<Metadata> indexData)
-        {
-            return JsonSerializer.Serialize(indexData, _jsonSerializationOptions);
         }
     }
 }
